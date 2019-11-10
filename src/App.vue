@@ -19,18 +19,15 @@
 </template>
 
 <script>
-import CardsData from "../public/data/cards.json";
 export default {
   name: "App",
-  data: () => ({
-    cards: CardsData.cards
-  }),
+  data: () => ({}),
   created() {
     this.setCards();
   },
   methods: {
     setCards() {
-      this.$store.dispatch("setCards", this.cards);
+      this.$store.dispatch("setCards", "/data/cards.json");
     }
   }
 };

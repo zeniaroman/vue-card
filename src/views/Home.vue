@@ -27,9 +27,12 @@
 export default {
   name: "home",
   data() {
-    return {
-      cards: this.$store.getters.getCards
-    };
+    return {};
+  },
+  computed: {
+    cards() {
+      return this.$store.getters.getCards;
+    }
   }
 };
 </script>
