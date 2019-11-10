@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     cards: null
   },
@@ -13,16 +13,27 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    setCards({ commit }, cards) {
-      commit("set", { type: "cards", items: cards });
+    setCards({ commit }, cardsFilePath) {
+      fetch(cardsFilePath)
+        .then(response => response.json())
+        .then(json => {
+          commit("set", { type: "cards", items: json.cards });
+        });
     }
   },
   getters: {
-    getCards(state) {
+    getCards: state => {
       return state.cards;
     },
     getCardById: state => id => {
       return state.cards.find(card => card.id === parseInt(id));
+    },
+    getCardChild: (state, getters) => (id, childId) => {
+      return getters
+        .getCardById(id)
+        .childs.find(card => card.id === parseInt(childId));
     }
   }
 });
+
+export default store;

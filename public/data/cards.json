@@ -89,6 +89,28 @@
 					"desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
 				}
 			]
+		},
+		{
+			"id": 6,
+			"name": "Card with something",
+			"desc": "Something - Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, amet repellendus, perferendis corporis blanditiis consectetur qui obcaecati aspernatur, cupiditate, molestias eveniet id consequatur maxime ex incidunt dolores vitae eligendi necessitatibus!",
+			"childs": [
+				{
+					"id": 1,
+					"name": "Child #1",
+					"desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+				},
+				{
+					"id": 2,
+					"name": "Child #2",
+					"desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+				},
+				{
+					"id": 3,
+					"name": "Child #3",
+					"desc": "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+				}
+			]
 		}
 	]
 }

@@ -1,37 +1,36 @@
 <template>
   <div class="card">
-    <div v-if="child">
-      <v-btn :to="'/card/' + id" text>Back</v-btn>
-      <h2>Name: {{ child.name }}</h2>
-      <span>Description: {{ child.desc }}</span>
-    </div>
-    <div v-else>
-      <h3>id: {{ id }}</h3>
-      <h2>Name: {{ name }}</h2>
-      <span>Description: {{ desc }}</span>
+    <v-btn
+      v-show="$route.params.childId && !card.childs"
+      :to="'/card/' + card.id"
+      text
+      >Back</v-btn
+    >
+    <h3>id: {{ card.id }}</h3>
+    <h2>Name: {{ card.name }}</h2>
+    <span>Description: {{ card.desc }}</span>
 
-      <v-card
-        v-for="child in childs"
-        :key="child.id"
-        class="mx-auto mt-5"
-        max-width="344"
-        outlined
-      >
-        <v-list-item three-line>
-          <v-list-item-content>
-            <div class="overline mb-4">{{ child.id }}</div>
-            <v-list-item-title class="headline mb-1"
-              >Card {{ child.name }}</v-list-item-title
-            >
-            <v-list-item-subtitle>{{ child.desc }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+    <v-card
+      v-for="child in card.childs"
+      :key="child.id"
+      class="mx-auto mt-5"
+      max-width="344"
+      outlined
+    >
+      <v-list-item three-line>
+        <v-list-item-content>
+          <div class="overline mb-4">{{ child.id }}</div>
+          <v-list-item-title class="headline mb-1"
+            >Card {{ child.name }}</v-list-item-title
+          >
+          <v-list-item-subtitle>{{ child.desc }}</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
 
-        <v-card-actions>
-          <v-btn :to="'/card/' + id + '/' + child.id" text>Open</v-btn>
-        </v-card-actions>
-      </v-card>
-    </div>
+      <v-card-actions>
+        <v-btn :to="'/card/' + card.id + '/' + child.id" text>Open</v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 
@@ -39,35 +38,28 @@
 export default {
   name: "card",
   data() {
-    return {
-      id: null,
-      name: null,
-      desc: null,
-      childs: {},
-      child: null
-    };
+    return {};
   },
-  mounted() {
-    var id = this.$route.params.id;
-    var childId = this.$route.params.childId;
-    var card = this.$store.getters.getCardById(id ? id : 1);
+  computed: {
+    card() {
+      var card = null;
+      var id = this.$route.params.id;
+      var childId = this.$route.params.childId;
 
-    this.id = card.id;
-    this.name = card.name;
-    this.desc = card.desc;
-    this.childs = card.childs;
+      id = id ? id : 1;
+      if (this.$store.getters.getCards) {
+        card = this.$store.getters.getCardById(
+          this.$store.getters.getCardById(id) ? id : 1
+        );
 
-    this.getChild(childId);
-  },
-  watch: {
-    "$route.params.childId": function(childId) {
-      this.getChild(childId);
-    }
-  },
-  methods: {
-    getChild(childId) {
-      var child = this.childs[childId - 1];
-      this.child = child ? child : null;
+        if (!childId || !this.$store.getters.getCardChild(id, childId)) {
+          return card;
+        }
+
+        return this.$store.getters.getCardChild(id, childId);
+      }
+
+      return {};
     }
   }
 };
